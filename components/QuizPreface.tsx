@@ -1,6 +1,8 @@
 import React from "react";
 const questionTimeLimit: number =
     parseInt(process.env.NEXT_PUBLIC_QUESTION_TIME_LIMIT!) ?? 6400;
+const questionCount: number =
+    parseInt(process.env.NEXT_PUBLIC_QUESTION_COUNT!) ?? 20;
 interface Props {
   onBeginQuiz: () => void
 }
@@ -11,11 +13,11 @@ const QuizPreface: React.FC<Props> = ({onBeginQuiz}) => {
         <h2 className="text-2xl text-center">Before we begin</h2>
         <ol className="list-decimal pl-4">
           <li>
-            In this quiz, you will be given 20 kanji questions based on the
+            In this quiz, you will be given {questionCount} kanji questions based on the
             level you choose
           </li>
           <li>
-            On each question, you will have approximately {questionTimeLimit}{" "}
+            On each question, you will have approximately {(questionTimeLimit/1000).toFixed(1)}{" "}
             seconds to answer
           </li>
           <li>
