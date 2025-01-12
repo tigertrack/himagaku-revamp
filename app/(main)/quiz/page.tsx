@@ -32,6 +32,12 @@ const QuizPage = () => {
 
   useEffect(() => {
     const getData = async () => {
+      const count = await db.kanjiList.toCollection().count()
+      if( count == 0){
+        const res = await fetch('./json/kanjiChars.json');
+        const data = await res.json();
+        await db.kanjiList.bulkAdd(data)
+      }
       const kanjiDict = await db.kanjiList.toArray();
       const questions = getQuestions(
         questionCount,
