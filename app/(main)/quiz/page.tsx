@@ -93,7 +93,7 @@ const QuizPage = () => {
   };
   // absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
   return (
-    <div className="h-screen flex flex-col">
+    <div className="flex flex-col">
       <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
         <Link className="border rounded border-gray-600 px-3 py-1" href="/">
           Back
@@ -106,7 +106,7 @@ const QuizPage = () => {
         onTimeUp={timesUp}
       />
       <main className="flex flex-col flex-grow">
-        {showPreface && <div className="flex-grow flex items-center justify-center"><QuizPreface onBeginQuiz={() => setshowPreface(false)} /></div>}
+        {showPreface && <div className="flex-grow flex items-center absolute top-1/2 -translate-y-1/2"><QuizPreface onBeginQuiz={() => setshowPreface(false)} /></div>}
         {!showPreface && questions.length > 0 && questionIndex < questions.length && (
           <Question
             onShowChoice={showChoice}
@@ -117,7 +117,7 @@ const QuizPage = () => {
           />
         )}
         {questions.length > 0 && questionIndex >= questions.length && (
-          <div className="flex-grow flex items-center justify-center">
+          <div className="flex-grow flex items-center absolute top-1/2 -translate-y-1/2">
             <Result
               correctCount={score}
               questionCount={questions.length}
