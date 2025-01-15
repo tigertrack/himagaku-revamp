@@ -91,7 +91,7 @@ const QuizPage = () => {
       )
     );
   };
-
+  // absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
   return (
     <div className="h-screen flex flex-col">
       <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
@@ -106,7 +106,7 @@ const QuizPage = () => {
         onTimeUp={timesUp}
       />
       <main className="flex flex-col flex-grow">
-        {showPreface && <QuizPreface onBeginQuiz={() => setshowPreface(false)} />}
+        {showPreface && <div className="flex-grow flex items-center justify-center"><QuizPreface onBeginQuiz={() => setshowPreface(false)} /></div>}
         {!showPreface && questions.length > 0 && questionIndex < questions.length && (
           <Question
             onShowChoice={showChoice}
