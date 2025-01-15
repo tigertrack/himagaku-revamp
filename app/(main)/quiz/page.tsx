@@ -106,7 +106,7 @@ const QuizPage = () => {
         onTimeUp={timesUp}
       />
       <main className="flex flex-col flex-grow">
-        {showPreface && <div className="flex-grow flex items-center absolute top-1/2 -translate-y-1/2"><QuizPreface onBeginQuiz={() => setshowPreface(false)} /></div>}
+        {showPreface && <div className="flex-grow flex items-center absolute top-1/2 -translate-y-1/2 inset-x-0"><QuizPreface onBeginQuiz={() => setshowPreface(false)} /></div>}
         {!showPreface && questions.length > 0 && questionIndex < questions.length && (
           <Question
             onShowChoice={showChoice}
@@ -117,7 +117,7 @@ const QuizPage = () => {
           />
         )}
         {questions.length > 0 && questionIndex >= questions.length && (
-          <div className="flex-grow flex items-center absolute top-1/2 -translate-y-1/2">
+          <div className="flex-grow flex flex-col items-center absolute top-1/2 -translate-y-1/2 inset-x-0">
             <Result
               correctCount={score}
               questionCount={questions.length}
