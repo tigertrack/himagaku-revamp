@@ -1,3 +1,4 @@
+"use client";
 import React, { useImperativeHandle, useMemo, forwardRef, useRef, useState,useEffect } from "react";
 
 export interface exposeMethods {
