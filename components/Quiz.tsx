@@ -45,6 +45,7 @@ const Quiz: React.FC<Props> = ({ level, sourceType, quizSubtitle, quizTitle }) =
       );
       setquestions(questions);
     };
+    console.log("making questions")
     getData();
   }, [level, questionCount, router, sourceType]);
 
