@@ -64,7 +64,7 @@ const Question: React.FC<Props> = ({
     <>
       <div className="flex flex-col gap-5 mt-12 items-center px-4">
         <div className="flex gap-3 flex-wrap landscape:flex-nowrap landscape:lg:flex-wrap landscape:lg:overflow-x-auto landscape:overflow-x-scroll landscape:w-[80%] justify-center">
-          {question?.readings_kun.map((item, index) => (
+          {question?.primary_hint.map((item, index) => (
             <span
               key={index}
               className="px-3 py-1 md:px-4 md:py-2 rounded text-nowrap bg-gray-800 hover:bg-gray-700"
@@ -72,7 +72,7 @@ const Question: React.FC<Props> = ({
               {item}
             </span>
           ))}
-          {question?.readings_on.map((item, index) => (
+          {question?.secondary_hint?.map((item, index) => (
             <span
               key={index}
               className="px-3 py-1 md:px-4 md:py-2 rounded text-nowrap bg-gray-900 hover:bg-gray-800"
@@ -82,7 +82,7 @@ const Question: React.FC<Props> = ({
           ))}
         </div>
         <div className="flex gap-2 flex-wrap landscape:flex-nowrap landscape:lg:flex-wrap landscape:lg:overflow-x-auto landscape:overflow-x-scroll landscape:w-[80%] justify-center">
-          {question?.meanings.map((item, index) => (
+          {question?.meanings?.map((item, index) => (
             <span
               key={index}
               className=" py-1 border-b border-b-gray-600 lg:border-b-0 font-bold text-nowrap hover:border-b-gray-300 hover:border-b"

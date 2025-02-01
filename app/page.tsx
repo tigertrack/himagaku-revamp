@@ -18,13 +18,47 @@ const page = () => {
             </div>
           </div>
           <Link
-            href={`/quiz?level=${level.level}`}
+            href={`/quiz?level=${level.level}&type=kanji`}
             className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
           >
             Start
           </Link>
         </div>
         ))}
+        <div className="p-4 border border-gray-600 gap-3 rounded flex justify-between">
+          <div className="flex items-center gap-3">
+            <div className="text-4xl">かな</div>
+            <div className="flex flex-col gap-0 justify-items-center">
+              <p className="text-base leading-tight">Fundamental</p>
+              <span className="text-xs text-zinc-400 leading-tight">
+                104 Hiragana characters
+              </span>
+            </div>
+          </div>
+          <Link
+            href={`/quiz?level=1&type=kana`}
+            className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
+          >
+            Start
+          </Link>
+        </div>
+        <div className="p-4 border border-gray-600 gap-3 rounded flex justify-between">
+          <div className="flex items-center gap-3">
+            <div className="text-4xl">カナ</div>
+            <div className="flex flex-col gap-0 justify-items-center">
+              <p className="text-base leading-tight">Fundamental</p>
+              <span className="text-xs text-zinc-400 leading-tight">
+                104 Katakana characters
+              </span>
+            </div>
+          </div>
+          <Link
+            href={`/quiz?level=2&type=kana`}
+            className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
+          >
+            Start
+          </Link>
+        </div>
       </div>
     </div>
   )
