@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 import QuizPreface from "@/components/QuizPreface";
@@ -46,7 +46,7 @@ const Quiz: React.FC<Props> = ({ level, sourceType, quizSubtitle, quizTitle }) =
       setquestions(questions);
     };
     getData();
-  }, [level, questionCount, router]);
+  }, [level, questionCount, router, sourceType]);
 
   const handleAnswer = (correct: string, actual: string) => {
     if (isCorrectAnswer(correct, actual)) setscore(score + 1);
