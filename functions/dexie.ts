@@ -20,16 +20,18 @@ export const db = new himagakuDB();
 const populateKanji = async (db: himagakuDB) => {
   const count = await db.kanjiList.toCollection().count();
   if (count == 0) {
-    const res = await fetch("./json/kanjiChars.json");
+    const baseUrl = window.location.origin;
+    const res = await fetch(baseUrl+"/json/kanjiChars.json");
     const data = await res.json();
     await db.kanjiList.bulkAdd(data);
   }
 };
 
 const populateKana = async (db: himagakuDB) => {
+  const baseUrl = window.location.origin;
   const count = await db.kanaList.toCollection().count();
   if (count == 0) {
-    const res = await fetch("./json/kanaChars.json");
+    const res = await fetch(baseUrl+"/json/kanaChars.json");
     const data = await res.json();
     await db.kanaList.bulkAdd(data);
   }
