@@ -2,19 +2,21 @@ import { initializeApp } from "firebase/app";
 import { getAuth, getIdToken } from "firebase/auth";
 import { getInstallations, getToken } from "firebase/installations";
 
-// this is set during install
 let firebaseConfig;
+let firebaseApp; // Store the initialized Firebase app
 
 self.addEventListener('install', event => {
-  // extract firebase config from query string
   const serializedFirebaseConfig = new URL(location).searchParams.get('firebaseConfig');
-  
+
   if (!serializedFirebaseConfig) {
     throw new Error('Firebase Config object not found in service worker query string.');
   }
-  
+
   firebaseConfig = JSON.parse(serializedFirebaseConfig);
   console.log("Service worker installed with Firebase config", firebaseConfig);
+
+  // Initialize Firebase *once* during install
+  firebaseApp = initializeApp(firebaseConfig); // Store the app instance
 });
 
 self.addEventListener("fetch", (event) => {
@@ -24,9 +26,9 @@ self.addEventListener("fetch", (event) => {
 });
 
 async function fetchWithFirebaseHeaders(request) {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const installations = getInstallations(app);
+  // Use the *already initialized* app
+  const auth = getAuth(firebaseApp);
+  const installations = getInstallations(firebaseApp);
   const headers = new Headers(request.headers);
   const [authIdToken, installationToken] = await Promise.all([
     getAuthIdToken(auth),

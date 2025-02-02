@@ -8265,6 +8265,7 @@
 
   // auth-service-worker.js
   var firebaseConfig;
+  var firebaseApp;
   self.addEventListener("install", (event) => {
     const serializedFirebaseConfig = new URL(location).searchParams.get("firebaseConfig");
     if (!serializedFirebaseConfig) {
@@ -8272,6 +8273,7 @@
     }
     firebaseConfig = JSON.parse(serializedFirebaseConfig);
     console.log("Service worker installed with Firebase config", firebaseConfig);
+    firebaseApp = initializeApp(firebaseConfig);
   });
   self.addEventListener("fetch", (event) => {
     const { origin } = new URL(event.request.url);
@@ -8279,9 +8281,8 @@
     event.respondWith(fetchWithFirebaseHeaders(event.request));
   });
   async function fetchWithFirebaseHeaders(request) {
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const installations = getInstallations(app);
+    const auth = getAuth(firebaseApp);
+    const installations = getInstallations(firebaseApp);
     const headers = new Headers(request.headers);
     const [authIdToken, installationToken] = await Promise.all([
       getAuthIdToken(auth),
