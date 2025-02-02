@@ -1,6 +1,6 @@
 import React from 'react'
 import { redirect } from 'next/navigation'
-import Quiz from '@/components/Quiz'
+import Quiz from '@/components/screen/Quiz'
 import { jlptLevelNames } from '@/constants'
 const KanjiQuiz = async ({
   params,
