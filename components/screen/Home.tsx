@@ -1,17 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { jlptLevels } from "@/constants";
-const Home = () => {
+import Header from "@/components/Header";
+import { getAuthenticatedAppForUser } from "@/service/firebase/serverApp";
+const Home = async () => {
+    const { currentUser } = await getAuthenticatedAppForUser();
   return (
     <>
-      <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
-        <Link className=" px-3 py-1" href="/">
-            Home
-        </Link>
-        <div className="">
-            Login
-        </div>
-      </nav>
+      <Header initialUser={currentUser?.toJSON()}/>
       <div className="px-4 md:mx-auto md:px-0 container mt-3">
         <h1 className="text-4xl mb-5">Kanji Quiz</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
