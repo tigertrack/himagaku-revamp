@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build-service-worker": "npx esbuild auth-service-worker.js --bundle --outfile=public/auth-service-worker.js"
   },
   "dependencies": {
     "dexie": "^4.0.10",
@@ -20,6 +21,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.24.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
     "postcss": "^8",
