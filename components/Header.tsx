@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { firebaseConfig } from "@/service/firebase/config";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function useUserSession(initialUser: any) {
   // The initialUser comes from the server via a server component
   const [user, setUser] = useState(initialUser);
@@ -31,15 +32,16 @@ function useUserSession(initialUser: any) {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const unsubscribe = onAuthStateChanged((authUser: any) => {
       setUser(authUser);
     });
 
     return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onAuthStateChanged((authUser: any) => {
       if (user === undefined) return;
 
@@ -54,15 +56,16 @@ function useUserSession(initialUser: any) {
   return user;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Header = ({ initialUser }: { initialUser: any }) => {
   const user = useUserSession(initialUser);
 
-  const handleSignOut = (event: any) => {
+  const handleSignOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     signOut();
   };
 
-  const handleSignIn = (event: any) => {
+  const handleSignIn = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     signInWithGoogle();
   };
