@@ -8264,15 +8264,15 @@
   registerVersion(name4, version4, "esm2017");
 
   // auth-service-worker.js
-  var firebaseConfig;
-  self.addEventListener("install", (event) => {
-    const serializedFirebaseConfig = new URL(location).searchParams.get("firebaseConfig");
-    if (!serializedFirebaseConfig) {
-      throw new Error("Firebase Config object not found in service worker query string.");
-    }
-    firebaseConfig = JSON.parse(serializedFirebaseConfig);
-    console.log("Service worker installed with Firebase config", firebaseConfig);
-  });
+  var serializedFirebaseConfig = new URL(location).searchParams.get(
+    "firebaseConfig"
+  );
+  if (!serializedFirebaseConfig) {
+    throw new Error(
+      "Firebase Config object not found in service worker query string."
+    );
+  }
+  var firebaseConfig = JSON.parse(serializedFirebaseConfig);
   self.addEventListener("fetch", (event) => {
     const { origin } = new URL(event.request.url);
     if (origin !== self.location.origin) return;
