@@ -8282,7 +8282,6 @@
   });
   async function fetchWithFirebaseHeaders(request) {
     const app = initializeApp(firebaseConfig);
-    console.log(firebaseConfig);
     const auth = getAuth(app);
     const installations = getInstallations(app);
     const headers = new Headers(request.headers);
