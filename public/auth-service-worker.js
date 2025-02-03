@@ -8267,7 +8267,6 @@
   var firebaseConfig;
   self.addEventListener("install", (event) => {
     const serializedFirebaseConfig = new URL(location).searchParams.get("firebaseConfig");
-    console.log("install");
     if (!serializedFirebaseConfig) {
       throw new Error("Firebase Config object not found in service worker query string.");
     }
@@ -8277,7 +8276,6 @@
   self.addEventListener("fetch", (event) => {
     const { origin } = new URL(event.request.url);
     if (origin !== self.location.origin) return;
-    console.log("fetch");
     event.respondWith(fetchWithFirebaseHeaders(event.request));
   });
   async function fetchWithFirebaseHeaders(request) {
