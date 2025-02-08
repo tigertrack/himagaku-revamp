@@ -70,8 +70,8 @@ const Header = ({ initialUser }: { initialUser: any }) => {
     signInWithGoogle();
   };
   return (
-    <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
-      <Link className=" px-3 py-1" href="/">
+    <nav className="px-4 py-4 border-b border-b-gray-600 flex justify-between items-center">
+      <Link className="" href="/">
         Home
       </Link>
       {user ? (
