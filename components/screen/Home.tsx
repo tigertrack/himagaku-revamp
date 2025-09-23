@@ -27,7 +27,7 @@ const Home = async () => {
               </div>
               <Link
                 href={`/quiz/kanji/${level.level}`}
-                className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
+                className="flex items-center bg-gray-800 px-3 rounded hover:bg-teal-600"
               >
                 Start
               </Link>
@@ -48,7 +48,7 @@ const Home = async () => {
             </div>
             <Link
               href={`/quiz/kana/1`}
-              className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
+              className="flex items-center bg-gray-800 px-3 rounded hover:bg-teal-600"
             >
               Start
             </Link>
@@ -65,7 +65,7 @@ const Home = async () => {
             </div>
             <Link
               href={`/quiz/kana/2`}
-              className="flex items-center bg-gray-800 px-3 rounded hover:bg-gray-700"
+              className="flex items-center bg-gray-800 px-3 rounded hover:bg-teal-600"
             >
               Start
             </Link>
