@@ -70,16 +70,21 @@ const Header = ({ initialUser }: { initialUser: any }) => {
     signInWithGoogle();
   };
   return (
-    <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
-      <Link className=" px-3 py-1" href="/">
+    <nav className="font-bold px-4 border-b border-b-gray-600 flex justify-between items-center">
+      <Link className=" px-3 py-4 cursor-pointer" href="/">
         Home
       </Link>
       {user ? (
-        <div className="" onClick={handleSignOut}>
-          Logout
+        <div className=" px-3 py-4 group relative cursor-pointer" >
+          Hi, {user.displayName}
+          <div className="hidden group-hover:flex left-0 text-end w-full absolute flex-col bg-gray-800 rounded-md">
+            <Link href="/preference" className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md">Preference</Link>
+            <Link href="/history" className="px-3 py-4 cursor-pointer hover:text-teal-600 ">Quiz Histories</Link>
+            <div className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md" onClick={handleSignOut}>Logout</div>
+          </div>
         </div>
       ) : (
-        <div className="" onClick={handleSignIn}>
+        <div className="cursor-pointer" onClick={handleSignIn}>
           Login
         </div>
       )}
