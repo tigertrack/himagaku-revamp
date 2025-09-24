@@ -6,8 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "build-service-worker": "npx esbuild auth-service-worker.js --bundle --outfile=public/auth-service-worker.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "dexie": "^4.0.10",

@@ -1,4 +1,31 @@
+"use client"
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
+
 export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      await login(email, password);
+      router.push('/home');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <main className="p-4 flex flex-col sm:items-center">
@@ -17,8 +44,10 @@ export default function LoginPage() {
               type="email"
               id="email"
               name="email"
-              className="rounded py-2 px-3 bg-zinc-700 focus:outline-none  focus:ring-sky-400 focus:ring-1"
+              className="rounded py-2 px-3 bg-zinc-700 focus:outline-none  focus:ring-teal-400 focus:ring-1"
               placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label className="flex flex-col gap-2">
@@ -29,19 +58,16 @@ export default function LoginPage() {
               type="password"
               id="password"
               name="password"
-              className="rounded py-2 px-3 bg-zinc-700 focus:outline-none  focus:ring-sky-400 focus:ring-1"
+              className="rounded py-2 px-3 bg-zinc-700 focus:outline-none  focus:ring-teal-400 focus:ring-1"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-          </label>
-          <label htmlFor="" className="flex gap-2 items-center">
-            <input type="checkbox" className="default:ring-2 accent-sky-500" />
-            <span className="block text-sm font-medium text-slate-200">
-              Remember me
-            </span>
           </label>
           <div className="flex w-full gap-2">
             <button
-              className="bg-sky-700 hover:bg-sky-800 py-2 rounded-md grow"
+              className="bg-teal-700 hover:bg-teal-800 py-2 rounded-md grow"
+              onClick={handleSubmit}
             >
               Login
             </button>
