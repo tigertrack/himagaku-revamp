@@ -1,14 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
 
 import Link from "next/link";
-import {
-  signInWithGoogle,
-  signOut,
-  onAuthStateChanged,
-} from "@/service/firebase/firebase";
-import { useRouter } from "next/navigation";
-import { firebaseConfig } from "@/service/firebase/config";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Header = ({ initialUser }: { initialUser: any }) => {
@@ -16,7 +8,6 @@ const Header = ({ initialUser }: { initialUser: any }) => {
 
   const handleSignOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    signOut();
   };
   
   return (
