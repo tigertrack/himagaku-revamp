@@ -20,6 +20,6 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signUp(data)
 
   if (error) {
-    return {error}
+    return { success: 0, message: error.message }
   }
 }

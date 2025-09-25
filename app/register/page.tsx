@@ -19,8 +19,8 @@ const Page = () => {
       setisLoading(true);
       const result = await signup(new FormData(event.currentTarget as HTMLFormElement));
 
-      if (result?.error) {
-        setErrorMessage(result.error.message);
+      if (result && !result.success) {
+        setErrorMessage(result?.message || "a");
         return;
       }
 
