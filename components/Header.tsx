@@ -1,13 +1,43 @@
 "use client";
 
+import { createClient } from "@/service/supabase/client";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Header = ({ initialUser }: { initialUser: any }) => {
-  const user = null;
+const Header = () => {
+ 
+  const [user, setUser] = useState<string | undefined>()
+  const [isFetchingUser, setIsFetchingUser] = useState(false)
+  const supabase = createClient();
+  const route = useRouter();
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        setIsFetchingUser(true)
+        const { data: { user } } = await supabase.auth.getUser()
+        const metadata = user?.user_metadata
+        setUser(metadata?.displayName)
+      } catch (error) {
+        console.log("error fetching user: ", error)
+      } finally {
+        setIsFetchingUser(false)
+      }
+    }
+    getUser()
+  }, [supabase.auth])
+
+  const signOut = async () => {
+  await supabase.auth.signOut();
+  route.push('/login')
+}
+
+
 
   const handleSignOut = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
+    signOut();
   };
   
   return (
@@ -15,19 +45,27 @@ const Header = ({ initialUser }: { initialUser: any }) => {
       <Link className=" px-3 py-4 cursor-pointer" href="/">
         Home
       </Link>
-      {user ? (
+      {isFetchingUser ? 
+        <div
+          className="bg-slate-800 hover:cursor-pointer px-3 py-1 rounded-xl animate-pulse h-5 w-20"
+        ></div> : user ? (
         <div className=" px-3 py-4 group relative cursor-pointer" >
-          Hi, User
-          <div className="hidden group-hover:flex left-0 text-end w-full absolute flex-col bg-gray-800 rounded-md">
+          Hi, {user}
+          <div className="hidden group-hover:flex right-0 text-end w-40 absolute flex-col bg-gray-800 rounded-md">
             <Link href="/preference" className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md">Preference</Link>
             <Link href="/history" className="px-3 py-4 cursor-pointer hover:text-teal-600 ">Quiz Histories</Link>
             <div className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md" onClick={handleSignOut}>Logout</div>
           </div>
         </div>
       ) : (
-        <Link className="cursor-pointer" href={'/login'}>
+        <div className="flex gap-3">
+          <Link className="cursor-pointer" href={'/login'}>
           Login
-        </Link>
+          </Link>| 
+          <Link className="cursor-pointer" href={'/register'}>
+            Register
+          </Link>
+        </div>
       )}
     </nav>
   );
