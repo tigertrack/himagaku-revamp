@@ -70,7 +70,7 @@ const Quiz: React.FC<Props> = ({ level, sourceType, quizSubtitle, quizTitle }) =
   return (
     <div className="flex flex-col">
       <nav className="p-4 border-b border-b-gray-600 flex justify-between items-center">
-        <Link className="border rounded border-gray-600 px-3 py-1" href="/">
+        <Link className="border rounded border-gray-600 px-3 py-1" href="/home">
           Back
         </Link>
         <p>

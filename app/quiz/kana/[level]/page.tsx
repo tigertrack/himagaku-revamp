@@ -11,7 +11,9 @@ const KanjiQuiz = async ({
   if(level > 5 || level < 1) redirect('/')
   const quizSubtitle = level == 1 ? 'Hiragana' : level == 2 ? 'Katakana' : ''
   return (
+    <>
     <Quiz level={level} sourceType='kana' quizTitle='Fundamental' quizSubtitle={quizSubtitle} />
+    </>
   )
 }
 

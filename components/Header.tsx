@@ -42,7 +42,7 @@ const Header = () => {
   
   return (
     <nav className="font-bold px-4 border-b border-b-gray-600 flex justify-between items-center">
-      <Link className=" px-3 py-4 cursor-pointer" href="/">
+      <Link className=" px-3 py-4 cursor-pointer" href="/home">
         Home
       </Link>
       {isFetchingUser ? 
