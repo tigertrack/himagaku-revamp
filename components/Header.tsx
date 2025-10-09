@@ -52,9 +52,9 @@ const Header = () => {
         <div className=" px-3 py-4 group relative cursor-pointer" >
           Hi, {user}
           <div className="hidden group-hover:flex right-0 text-end w-40 absolute flex-col bg-gray-800 rounded-md">
-            <Link href="/preferences" className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md">Preference</Link>
-            <Link href="/history" className="px-3 py-4 cursor-pointer hover:text-teal-600 ">Quiz Histories</Link>
-            <div className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md" onClick={handleSignOut}>Logout</div>
+            <Link href="/home" className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md">Home</Link>
+            <Link href="/translate" className="px-3 py-4 cursor-pointer hover:text-teal-600 ">Translation Tool</Link>
+            <div className="px-3 py-4 cursor-pointer hover:text-teal-600 hover:rounded-md" onClick={handleSignOut}>Sign Out</div>
           </div>
         </div>
       ) : (
