@@ -2,25 +2,24 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
-import { createClient } from '@/service/supabase/server'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/service/firebase/client'
+import { createSession } from '@/app/auth/actions'
 
 export async function login(formData: FormData) {
-  const supabase = await createClient()
+  try {
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    const idToken = await userCredential.user.getIdToken()
+
+    await createSession(idToken)
+
+    revalidatePath('/home', 'layout')
+    redirect('/home')
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'An error occurred during login'
+    return { success: 0, message }
   }
-
-  const { error } = await supabase.auth.signInWithPassword(data)
-
-  if (error) {
-    return { success: 0, message: error.message }
-  }
-
-  revalidatePath('/home', 'layout')
-  redirect('/home')
 }

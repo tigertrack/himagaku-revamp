@@ -1,28 +1,22 @@
-import { type EmailOtpType } from '@supabase/supabase-js'
 import { type NextRequest } from 'next/server'
-
-import { createClient } from '@/service/supabase/server'
 import { redirect } from 'next/navigation'
 
 export async function GET(request: NextRequest) {
+  // Firebase handles email verification through a link sent to the user
+  // This endpoint is for handling the verification email callback
+  // Firebase will automatically verify the email when the user clicks the link in the email
+  
   const { searchParams } = new URL(request.url)
-  const token_hash = searchParams.get('token_hash')
-  const type = searchParams.get('type') as EmailOtpType | null
-  const next = searchParams.get('next') ?? '/home'
+  const mode = searchParams.get('mode')
+  const code = searchParams.get('code')
 
-  if (token_hash && type) {
-    const supabase = await createClient()
-
-    const { error } = await supabase.auth.verifyOtp({
-      type,
-      token_hash,
-    })
-    if (!error) {
-      // redirect user to specified redirect URL or root of app
-      redirect(next)
-    }
+  if (mode === 'verifyEmail' && code) {
+    // Firebase email verification is handled automatically
+    // The user will be redirected here after clicking the email verification link
+    // You can implement custom logic here if needed
+    redirect('/home')
   }
 
-  // redirect the user to an error page with some instructions
-  redirect('/error')
+  // Redirect to home if parameters are missing
+  redirect('/home')
 }

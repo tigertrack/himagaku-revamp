@@ -1,44 +1,40 @@
 "use client";
 
-import { createClient } from "@/service/supabase/client";
+import { auth } from "@/service/firebase/client";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 
 const Header = () => {
  
   const [user, setUser] = useState<string | undefined>()
   const [isFetchingUser, setIsFetchingUser] = useState(false)
-  const supabase = createClient();
   const route = useRouter();
 
   useEffect(() => {
-    async function getUser() {
-      try {
-        setIsFetchingUser(true)
-        const { data: { user } } = await supabase.auth.getUser()
-        const metadata = user?.user_metadata
-        setUser(metadata?.displayName)
-      } catch (error) {
-        console.log("error fetching user: ", error)
-      } finally {
-        setIsFetchingUser(false)
+    setIsFetchingUser(true)
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser.displayName || undefined)
+      } else {
+        setUser(undefined)
       }
-    }
-    getUser()
-  }, [supabase.auth])
+      setIsFetchingUser(false)
+    });
 
-  const signOut = async () => {
-  await supabase.auth.signOut();
-  route.push('/login')
-}
+    return () => unsubscribe();
+  }, [])
 
-
-
-  const handleSignOut = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleSignOut = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    signOut();
-  };
+    try {
+      await signOut(auth);
+      route.push('/login')
+    } catch (error) {
+      console.error("Error signing out:", error)
+    }
+  }
   
   return (
     <nav className="font-bold px-4 border-b border-b-gray-600 flex justify-between items-center">
