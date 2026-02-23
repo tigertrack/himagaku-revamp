@@ -20,3 +20,23 @@ export async function removeSession() {
   const cookieStore = await cookies();
   cookieStore.delete('session');
 }
+
+export async function getCurrentUser() {
+  try {
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get('session')?.value;
+
+    if (!sessionCookie) {
+      return null;
+    }
+
+    const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie, true);
+    return {
+      uid: decodedClaims.uid,
+      email: decodedClaims.email,
+      displayName: decodedClaims.name || decodedClaims.email?.split('@')[0],
+    };
+  } catch (error) {
+    return null;
+  }
+}

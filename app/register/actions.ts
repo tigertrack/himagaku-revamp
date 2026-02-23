@@ -1,7 +1,6 @@
 'use server'
 
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
-import { auth } from '@/service/firebase/client'
+import { adminAuth } from '@/service/firebase/admin'
 import { createSession } from '@/app/auth/actions'
 
 export async function signup(formData: FormData) {
@@ -10,16 +9,35 @@ export async function signup(formData: FormData) {
     const password = formData.get('password') as string
     const displayName = formData.get('displayName') as string
 
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    
-    // Update user profile with display name
-    await updateProfile(userCredential.user, { displayName })
+    // Create user with Firebase Admin SDK
+    const userRecord = await adminAuth.createUser({
+      email,
+      password,
+      displayName,
+    })
 
-    // Send verification email
-    await userCredential.user.getIdToken()
+    // Generate a custom token for the newly created user
+    const customToken = await adminAuth.createCustomToken(userRecord.uid)
 
-    // Create session for automatic login after signup
-    const idToken = await userCredential.user.getIdToken()
+    // Exchange custom token for an ID token using Firebase REST API
+    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=' + process.env.NEXT_PUBLIC_FIREBASE_API_KEY, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: customToken,
+        returnSecureToken: true,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to create session after signup')
+    }
+
+    const data = await response.json()
+    const idToken = data.idToken
+
     await createSession(idToken)
 
     return { success: 1, message: 'Account created successfully' }

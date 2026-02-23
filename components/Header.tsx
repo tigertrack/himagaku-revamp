@@ -1,35 +1,40 @@
 "use client";
 
-import { auth } from "@/service/firebase/client";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
-import { signOut, onAuthStateChanged } from "firebase/auth";
+import { getCurrentUser, removeSession } from "@/app/auth/actions";
 
 const Header = () => {
  
   const [user, setUser] = useState<string | undefined>()
-  const [isFetchingUser, setIsFetchingUser] = useState(false)
+  const [isFetchingUser, setIsFetchingUser] = useState(true)
   const route = useRouter();
 
   useEffect(() => {
-    setIsFetchingUser(true)
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser.displayName || undefined)
-      } else {
+    async function loadUser() {
+      try {
+        const currentUser = await getCurrentUser()
+        if (currentUser) {
+          setUser(currentUser.displayName)
+        } else {
+          setUser(undefined)
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error)
         setUser(undefined)
+      } finally {
+        setIsFetchingUser(false)
       }
-      setIsFetchingUser(false)
-    });
-
-    return () => unsubscribe();
+    }
+    
+    loadUser()
   }, [])
 
   const handleSignOut = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     try {
-      await signOut(auth);
+      await removeSession();
       route.push('/login')
     } catch (error) {
       console.error("Error signing out:", error)
