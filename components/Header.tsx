@@ -1,44 +1,45 @@
 "use client";
 
-import { createClient } from "@/service/supabase/client";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from "react";
+import { getCurrentUser, removeSession } from "@/app/auth/actions";
 
 const Header = () => {
  
   const [user, setUser] = useState<string | undefined>()
-  const [isFetchingUser, setIsFetchingUser] = useState(false)
-  const supabase = createClient();
+  const [isFetchingUser, setIsFetchingUser] = useState(true)
   const route = useRouter();
 
   useEffect(() => {
-    async function getUser() {
+    async function loadUser() {
       try {
-        setIsFetchingUser(true)
-        const { data: { user } } = await supabase.auth.getUser()
-        const metadata = user?.user_metadata
-        setUser(metadata?.displayName)
+        const currentUser = await getCurrentUser()
+        if (currentUser) {
+          setUser(currentUser.displayName)
+        } else {
+          setUser(undefined)
+        }
       } catch (error) {
-        console.log("error fetching user: ", error)
+        console.error("Error fetching user:", error)
+        setUser(undefined)
       } finally {
         setIsFetchingUser(false)
       }
     }
-    getUser()
-  }, [supabase.auth])
+    
+    loadUser()
+  }, [])
 
-  const signOut = async () => {
-  await supabase.auth.signOut();
-  route.push('/login')
-}
-
-
-
-  const handleSignOut = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleSignOut = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
-    signOut();
-  };
+    try {
+      await removeSession();
+      route.push('/login')
+    } catch (error) {
+      console.error("Error signing out:", error)
+    }
+  }
   
   return (
     <nav className="font-bold px-4 border-b border-b-gray-600 flex justify-between items-center">
