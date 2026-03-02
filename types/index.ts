@@ -32,3 +32,9 @@ export type kana = {
 }
 
 export type sourceType = 'kanji' | 'kana';
+
+export type translatedVocab = {
+    id?: number;
+    vocab: string;
+    freq: number;
+};
